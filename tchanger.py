@@ -7,9 +7,13 @@ import argparse
 parser = argparse.ArgumentParser(description="Automate the process of manipulating texts")
 parser.add_argument("-t", "--text", type=str, required=True, help="The text that you want to manipulate")
 
-parser.add_argument("-rc", "--randomCapitalization", action="store_true", required=False, help="Randomizes the capitalization")
+parser.add_argument("-rc", "--randomcapitalization", action="store_true", required=False, help="Randomizes the capitalization")
 parser.add_argument("-s", "--separate", type=int, required=False, help="Separates the text by number")
 parser.add_argument("-re", "--reverse", action="store_true", required=False, help="Reverses the text")
+parser.add_argument("-c", "--capitalize", action="store_true", required=False, help="Capitalizes the text")
+parser.add_argument("-dc", "--decapitalize", action="store_true", required=False, help="Decapitalize the text")
+parser.add_argument("-dt", "--duplicatetext", type=int, required=False, help="Duplicates the text")
+parser.add_argument("-dl", "--duplicateletters", type=int, required=False, help="Duplicates the letters of the text")
 
 args = parser.parse_args()
 
@@ -23,6 +27,26 @@ def randomCapitalization(n):
             new = new + letter.upper()
         else:
             new = new + letter.lower()
+
+    return new
+
+def capitalize(n):
+    return n.upper()
+
+def decapitalize(n):
+    return n.lower()
+
+def duplicate_text(n, amount):
+    return n*amount + " "
+
+def duplicate_letters(n, amount):
+    new = ""
+
+    for letter in n:
+        if letter != " ":
+            new = new + letter*amount
+        else:
+            new = new + " "
 
     return new
 
@@ -40,10 +64,18 @@ def reverse(n):
 if __name__ == "__main__":
     text = args.text
 
-    if args.randomCapitalization:
+    if args.randomcapitalization:
         text = randomCapitalization(text)
     if args.separate:
         text = separate(text, args.separate)
+    if args.duplicatetext:
+        text = duplicate_text(text, args.duplicatetext)
+    if args.duplicateletters:
+        text = duplicate_letters(text, args.duplicateletters)
+    if args.decapitalize:
+        text = decapitalize(text)
+    if args.capitalize:
+        text = capitalize(text)
     if args.reverse:
         text = reverse(text)
 
