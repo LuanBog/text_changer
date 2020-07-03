@@ -1,8 +1,9 @@
 #Made by TheLittleBro122
+#https://github.com/TheLittleBro122/text_changer
 
 import random
-import sys
 import argparse
+import json
 
 parser = argparse.ArgumentParser(description="Automate the process of manipulating texts")
 parser.add_argument("-t", "--text", type=str, required=True, help="The text that you want to manipulate")
@@ -14,6 +15,7 @@ parser.add_argument("-c", "--capitalize", action="store_true", required=False, h
 parser.add_argument("-dc", "--decapitalize", action="store_true", required=False, help="Decapitalize the text")
 parser.add_argument("-dt", "--duplicatetext", type=int, required=False, help="Duplicates the text")
 parser.add_argument("-dl", "--duplicateletters", type=int, required=False, help="Duplicates the letters of the text")
+parser.add_argument("-de", "--discordemoji", action="store_true", required=False, help="Makes texts as discord emojis")
 
 args = parser.parse_args()
 
@@ -37,7 +39,7 @@ def decapitalize(n):
     return n.lower()
 
 def duplicate_text(n, amount):
-    return n*amount + " "
+    return n*amount
 
 def duplicate_letters(n, amount):
     new = ""
@@ -61,22 +63,45 @@ def separate(n, space):
 def reverse(n):
     return n[::-1]
 
+def discordemoji(n):
+    n = n.lower()
+
+    data = None
+    new = ""
+
+    with open("discord-emojis.json") as f:
+        data = json.load(f)
+
+    for letter in n:
+        if letter != " ":
+            if letter in data:
+                new = new + data[letter] + " "
+            else:
+                new = new + letter + " "
+        else:
+            new = new + "     "
+
+    return new
+
 if __name__ == "__main__":
     text = args.text
 
-    if args.randomcapitalization:
-        text = randomCapitalization(text)
-    if args.separate:
-        text = separate(text, args.separate)
-    if args.duplicatetext:
-        text = duplicate_text(text, args.duplicatetext)
-    if args.duplicateletters:
-        text = duplicate_letters(text, args.duplicateletters)
-    if args.decapitalize:
-        text = decapitalize(text)
-    if args.capitalize:
-        text = capitalize(text)
-    if args.reverse:
-        text = reverse(text)
+    if args.discordemoji:
+        text = discordemoji(text)
+    else:
+        if args.randomcapitalization:
+            text = randomCapitalization(text)
+        if args.separate:
+            text = separate(text, args.separate)
+        if args.duplicatetext:
+            text = duplicate_text(text, args.duplicatetext)
+        if args.duplicateletters:
+            text = duplicate_letters(text, args.duplicateletters)
+        if args.decapitalize:
+            text = decapitalize(text)
+        if args.capitalize:
+            text = capitalize(text)
+        if args.reverse:
+            text = reverse(text)
 
     print("\n%s" % (text))
