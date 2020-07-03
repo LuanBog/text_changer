@@ -77,31 +77,31 @@ def discordemoji(n):
             if letter in data:
                 new = new + data[letter] + " "
             else:
-                new = new + letter + " "
+                if letter != ":":
+                    new = new + letter + " "
         else:
-            new = new + "     "
+            new = new + "    "
 
     return new
 
 if __name__ == "__main__":
     text = args.text
 
+    if args.randomcapitalization:
+        text = randomCapitalization(text)
+    if args.separate:
+        text = separate(text, args.separate)
+    if args.duplicatetext:
+        text = duplicate_text(text, args.duplicatetext)
+    if args.duplicateletters:
+        text = duplicate_letters(text, args.duplicateletters)
+    if args.decapitalize:
+        text = decapitalize(text)
+    if args.capitalize:
+        text = capitalize(text)
+    if args.reverse:
+        text = reverse(text)
     if args.discordemoji:
         text = discordemoji(text)
-    else:
-        if args.randomcapitalization:
-            text = randomCapitalization(text)
-        if args.separate:
-            text = separate(text, args.separate)
-        if args.duplicatetext:
-            text = duplicate_text(text, args.duplicatetext)
-        if args.duplicateletters:
-            text = duplicate_letters(text, args.duplicateletters)
-        if args.decapitalize:
-            text = decapitalize(text)
-        if args.capitalize:
-            text = capitalize(text)
-        if args.reverse:
-            text = reverse(text)
 
     print("\n%s" % (text))
