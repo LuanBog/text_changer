@@ -7,10 +7,9 @@ import argparse
 parser = argparse.ArgumentParser(description="Automate the process of manipulating texts")
 parser.add_argument("-t", "--text", type=str, required=True, help="The text that you want to manipulate")
 
-important_args = parser.add_mutually_exclusive_group()
-important_args.add_argument("-rc", "--randomCapitalization", action="store_true", required=False, help="Randomizes the capitalization")
-important_args.add_argument("-s", "--separate", type=int, required=False, help="Separates the text by number")
-important_args.add_argument("-re", "--reverse", action="store_true", required=False, help="Reverses the text")
+parser.add_argument("-rc", "--randomCapitalization", action="store_true", required=False, help="Randomizes the capitalization")
+parser.add_argument("-s", "--separate", type=int, required=False, help="Separates the text by number")
+parser.add_argument("-re", "--reverse", action="store_true", required=False, help="Reverses the text")
 
 args = parser.parse_args()
 
